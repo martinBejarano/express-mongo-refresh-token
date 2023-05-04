@@ -10,6 +10,7 @@ export const register = async (req, res) => {
         const user = new User({ email, password });
         await user.save();
 
+        generateRefresh(user.id, res);
         return returnToken(res, user.id);
     } catch (e) {
         console.log(e);
