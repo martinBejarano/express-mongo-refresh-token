@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+</head>
+
+<body>
+    <form id="form">
+        <input id="email" value="bejarano@gmail.com" type="email">
+        <input id="password" value="1234567" type="password">
+        <button type="submit">Login</button>
+    </form>
+
+    <button class="logout">Logout</button>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const form = document.getElementById('form')
+            const email = document.getElementById('email')
+            const password = document.getElementById('password')
+
+            form.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const tokenFetch = await fetch('/login',
+                    {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ email: email.value, password: password.value })
+                    })
+                const { token } = await tokenFetch.json()
+                console.log(token)
+            })
+
+            document.querySelector('.logout').addEventListener('click', async (e) => {
+                e.preventDefault();
+                const logoutRes = await fetch('/logout', {
+                    method: 'POST',
+                    credentials: 'include'
+                });
+            })
+        })
+    </script>
+</body>
+
+</html>
